@@ -1,0 +1,20 @@
+name: INAMHI GloFAS discovery
+on:
+  push:
+    branches: [revision-inamhi-glofas-validation]
+  workflow_dispatch:
+jobs:
+  discover:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - run: pip install requests pandas pymupdf
+      - run: python revision_analysis/discover_inamhi.py
+      - uses: actions/upload-artifact@v4
+        with:
+          name: inamhi-glofas-discovery
+          path: revision_outputs
+          retention-days: 30
